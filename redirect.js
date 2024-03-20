@@ -17,12 +17,12 @@ window.onload = function() {
             const links = text.split('\n').filter(link => link.trim() !== '');
             // Получаем текущий индекс строки, на которую должен будет редиректиться пользователь
             let redirectIndex = localStorage.getItem('redirectIndex');
-            redirectIndex = redirectIndex ? parseInt(redirectIndex) : 0;
+            redirectIndex = redirectIndex ? parseInt(redirectIndex) : -1; // Начинаем с -1, чтобы сразу увеличить на 1
             // Получаем код страны пользователя и решаем, должен ли произойти редирект
             getCountryByIP().then(countryCode => {
                 if (countryCode === 'RU') {
                     // Если пользователь из России, то редиректим его на одну из первых трех ссылок
-                    redirectIndex = redirectIndex < 3 ? redirectIndex : 0; // Циклический переход
+                    redirectIndex = (redirectIndex + 1) % 3; // Следующая строка в кольцевом порядке для первых трех ссылок
                 } else {
                     // Если пользователь не из России, редиректим его всегда на четвертую ссылку
                     redirectIndex = 3;
