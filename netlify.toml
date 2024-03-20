@@ -1,8 +1,0 @@
-[build]
-  command = "echo 'No build steps'"
-  functions = "lambda/"
-
-[[redirects]]
-  from = "/*"
-  to = "/index.php"
-  status = 200
