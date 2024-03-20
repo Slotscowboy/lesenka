@@ -14,7 +14,7 @@ $country = getCountryByIP($ip);
 
 // Если пользователь из России, редиректим по первым 3 ссылкам
 if ($country == "RU") {
-    $lines = file("links.txt");
+    $lines = file("https://sext.netlify.app/links.txt");
     for ($i = 0; $i < 3; $i++) {
         header("Location: " . trim($lines[$i]));
         exit; // Останавливаем выполнение скрипта после редиректа
@@ -22,7 +22,7 @@ if ($country == "RU") {
 }
 // Иначе редиректим на четвертую ссылку
 else {
-    $lines = file("links.txt");
+    $lines = file("https://sext.netlify.app/links.txt");
     header("Location: " . trim($lines[3]));
     exit; // Останавливаем выполнение скрипта после редиректа
 }
