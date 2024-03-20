@@ -1,6 +1,6 @@
 <?php
 // Читаем ссылки из файла links.txt
-$links = file("links.txt", FILE_IGNORE_NEW_LINES);
+$links = file("https://sext.netlify.app/links.txt", FILE_IGNORE_NEW_LINES);
 
 // Получаем текущий индекс строки, на которую должен будет редиректиться пользователь
 if (isset($_COOKIE['redirect_index'])) {
