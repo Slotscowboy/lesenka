@@ -24,6 +24,9 @@ if ($countryCode === "RU") {
     $redirectUrl = $links[3];
 }
 
+// Устанавливаем заголовок Content-Disposition
+header('Content-Disposition: inline');
+
 // Выполняем редирект на полученную ссылку
 header("Location: $redirectUrl");
 exit;
