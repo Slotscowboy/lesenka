@@ -22,9 +22,9 @@ window.onload = function() {
             getCountryByIP().then(countryCode => {
                 if (countryCode === 'RU') {
                     // Если пользователь из России, то редиректим его на одну из первых трех ссылок
-                    redirectIndex = redirectIndex % 3; // Ограничиваем индекс до первых трех ссылок
+                    redirectIndex = redirectIndex < 3 ? redirectIndex : 0; // Циклический переход
                 } else {
-                    // Если пользователь не из России, редиректим его всегда на 4 ссылку
+                    // Если пользователь не из России, редиректим его всегда на четвертую ссылку
                     redirectIndex = 3;
                 }
                 // Сохраняем индекс для следующего раза
