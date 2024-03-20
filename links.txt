@@ -1,4 +1,4 @@
-yandex.ru
-vk.ru
-rbc.ru
-google.com
+https://yandex.ru
+https://vk.ru
+https://rbc.ru
+https://google.com
