@@ -1,3 +1,3 @@
 [build]
   command = "echo 'No build required'"
-  publish = "path/to/your/public/directory"
+  publish = "https://sext.netlify.app"
