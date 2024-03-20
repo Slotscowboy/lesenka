@@ -2,8 +2,8 @@
 // Получение IP-адреса пользователя
 $ip = $_SERVER['REMOTE_ADDR'];
 
-// Отправка запроса к сервису ipinfo.io для получения информации о местоположении пользователя
-$response = file_get_contents("https://ipinfo.io/$ip/json");
+// Отправка запроса к сервису GeoIP для определения местоположения пользователя
+$response = file_get_contents("https://get.geojs.io/v1/ip/country/$ip.json");
 $data = json_decode($response, true);
 
 // Получение кода страны
