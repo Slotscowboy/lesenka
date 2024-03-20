@@ -1,40 +1,38 @@
 <?php
-// Функция для отправки запроса к API сервиса ip.me и извлечения кода страны
-function getCountryByIP($ip) {
-    $url = "https://ip.me";
-    $response = file_get_contents($url);
-    preg_match('/Country Code: ([A-Z]+)/', $response, $matches);
-    if (isset($matches[1])) {
-        return $matches[1];
+// Функция для получения IP-адреса пользователя
+function getUserIP() {
+    // Проверяем, определен ли IP-адрес через прокси-сервер
+    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+        $ip = $_SERVER['HTTP_CLIENT_IP'];
+    } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
     } else {
-        return null;
+        $ip = $_SERVER['REMOTE_ADDR'];
     }
+    return $ip;
 }
 
-// Получение IP-адреса пользователя
-$ip = $_SERVER['REMOTE_ADDR'];
+// Получаем IP-адрес пользователя
+$ip = getUserIP();
 
-// Определение страны пользователя по IP-адресу
-$country = getCountryByIP($ip);
+// Инициализация cURL-сессии
+$ch = curl_init('http://ipwho.is/'.$ip);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HEADER, false);
 
-// Если удалось получить код страны
-if ($country) {
-    // Если пользователь из России, редиректим по первым 3 ссылкам
-    if ($country == "RU") {
-        $lines = file("https://sext.netlify.app/links.txt");
-        for ($i = 0; $i < 3; $i++) {
-            header("Location: " . trim($lines[$i]));
-            exit; // Останавливаем выполнение скрипта после редиректа
-        }
-    }
-    // Иначе редиректим на четвертую ссылку
-    else {
-        $lines = file("https://sext.netlify.app/links.txt");
-        header("Location: " . trim($lines[3]));
-        exit; // Останавливаем выполнение скрипта после редиректа
-    }
+// Выполнение запроса и получение ответа
+$response = curl_exec($ch);
+
+// Закрытие cURL-сессии
+curl_close($ch);
+
+// Преобразование ответа в формат JSON
+$ipwhois = json_decode($response, true);
+
+// Вывод кода страны
+if (isset($ipwhois['country_code'])) {
+    echo $ipwhois['country_code']; // Вывод кода страны
 } else {
-    // Если не удалось получить код страны, выводим сообщение об ошибке
     echo "Не удалось определить местоположение пользователя.";
 }
 ?>
