@@ -1,16 +1,17 @@
 <?php
 // Функция для отправки запросов к API сервиса геолокации
 function getCountryByIP($ip) {
-    $url = "https://ipinfo.io/$ip/country";
+    $url = "http://ip-api.com/json/$ip";
     $response = file_get_contents($url);
-    return $response;
+    return json_decode($response, true);
 }
 
 // Получение IP-адреса пользователя
 $ip = $_SERVER['REMOTE_ADDR'];
 
 // Определение страны пользователя по IP-адресу
-$country = getCountryByIP($ip);
+$data = getCountryByIP($ip);
+$country = $data['countryCode'];
 
 // Если пользователь из России, редиректим по первым 3 ссылкам
 if ($country == "RU") {
