@@ -1,3 +1,8 @@
 [build]
-  command = "echo 'No build required'"
-  publish = "https://sext.netlify.app"
+  command = "echo 'No build steps'"
+  functions = "lambda/"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.php"
+  status = 200
